@@ -1,0 +1,63 @@
+body {
+            background-color: #D6AAA1;  /* Light red background */
+            color: #721c24;
+        }
+
+        .navbar {
+            background-color: #ffffff; /* White navbar background */
+            color: #721c24; /* Dark red text */
+        }
+
+        .navbar-light .navbar-brand {
+            color: #721c24; /* White text */
+            font-size: 23px; /* Increase font size */
+            font-weight: bold; /* Make it bold */
+            font-family: 'Playfair Display';
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #ffffff; /* White text */
+        }
+
+        .navbar-light .navbar-toggler-icon {
+            background-color: #721c24; /* White color for toggler icon */
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-inner img {
+            width: 100%;
+            height: 400px;
+        }
+
+        .nav-link.btn.btn-danger.btn-lg {
+            color: #ffffff !important; /* Set logout button text to white */
+        }
+        /* Updated styles for "Customers" and "Products" buttons */
+        .nav-item .nav-link.btn.btn-outline-secondary.btn-lg {
+            background-color: #ffffff; /* White background for buttons */
+            border: 1px solid #E74C3C; /* Dark red border for buttons */
+            color: #721c24; /* Dark red text for buttons */
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth transition */
+        }
+
+        .nav-item .nav-link.btn.btn-outline-secondary.btn-lg:hover {
+            background-color: #E74C3C; /* Dark red background on hover */
+            color: #ffffff; /* White text on hover */
+        }
+        /* Add your custom gradient styles */
+.btn-gradient-custom1 {
+    background: linear-gradient(to right, #ff8a00, #da1b60); /* Example gradient colors */
+    /* Add any additional styling as needed */
+}
+
+.btn-gradient-custom2 {
+    background: linear-gradient(to right, #4b6cb7, #182848); /* Example gradient colors */
+    /* Add any additional styling as needed */
+}

@@ -1,0 +1,63 @@
+body {
+    background-color: #D6AAA1;
+    color: #721c24;
+    font-family: 'Playfair Display', serif;
+}
+
+.navbar {
+    background-color: #ffffff;
+    color: #721c24;
+}
+
+.navbar-light .navbar-brand {
+    color: #721c24;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #ffffff;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-color: #721c24;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 400px;
+}
+
+.nav-link.btn.btn-danger.btn-lg {
+    color: #ffffff !important;
+}
+
+.nav-item .nav-link.btn.btn-outline-secondary.btn-lg {
+    background-color: #ffffff;
+    border: 1px solid #E74C3C;
+    color: #721c24;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.nav-item .nav-link.btn.btn-outline-secondary.btn-lg:hover {
+    background-color: #E74C3C;
+    color: #ffffff;
+}
+
+.btn-gradient-custom1 {
+    background: linear-gradient(to right, #ff8a00, #da1b60);
+    color: #ffffff;
+}
+
+.btn-gradient-custom2 {
+    background: linear-gradient(to right, #4b6cb7, #182848);
+    color: #ffffff;
+}

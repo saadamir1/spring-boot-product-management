@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Stock Management System</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-gradient-buttons/dist/buttons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+
+<!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Food Stock Management System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item mr-4">
+                <a class="nav-link btn btn-gradient-custom1 btn-lg" href="/products/" onclick="loadContent('/products/', 'contentContainer')">Products</a>
+            </li>
+            <li class="nav-item mr-4">
+                <a class="nav-link btn btn-gradient-custom2 btn-lg" href="/customers/" onclick="loadContent('/customers/', 'contentContainer')">Customers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger btn-lg" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2 class="mb-4">Customer List</h2>
+        </div>
+        <div class="col-md-6 text-right">
+            <button type="button" class="btn btn-outline-info btn-sm float-right ml-2" data-toggle="modal" data-target="#addCustomerModal">
+                <span style="vertical-align: middle;">add</span> Add Customer
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Add Customer Modal -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add Customer Form -->
+                    <form id="addCustomerForm" th:action="@{/customers/saveCustomer}" method="post" th:object="${customer}">
+                        <div class="form-group">
+                            <label for="businessName">Business Name:</label>
+                            <input type="text" class="form-control" id="businessName" name="businessName" th:field="*{businessName}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressLine1">Address Line 1:</label>
+                            <input type="text" class="form-control" id="addressLine1" name="address.addressLine1" th:field="*{address.addressLine1}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressLine2">Address Line 2:</label>
+                            <input type="text" class="form-control" id="addressLine2" name="address.addressLine2" th:field="*{address.addressLine2}">
+                        </div>
+                        <div class="form-group">
+                            <label for="addressLine3">Address Line 3:</label>
+                            <input type="text" class="form-control" id="addressLine3" name="address.addressLine3" th:field="*{address.addressLine3}">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country:</label>
+                            <input type="text" class="form-control" id="country" name="address.country" th:field="*{address.country}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postCode">Post Code:</label>
+                            <input type="text" class="form-control" id="postCode" name="address.postCode" th:field="*{address.postCode}">
+                        </div>
+                        <div class="form-group">
+                            <label for="telephoneNumber">Telephone Number:</label>
+                            <input type="text" class="form-control" id="telephoneNumber" name="telephoneNumber" th:field="*{telephoneNumber}" required>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Search and Filter Controls -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" id="customerSearchInput" class="form-control" placeholder="Search Customer">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-info" onclick="filterCustomers()">Filter/Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <select id="filterCountry" class="form-control" onchange="filterCustomers()">
+                <option value="">All Countries</option>
+                <option value="USA">USA</option>
+                <option value="Germany">Germany</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Customer table -->
+    <table id="customerTable" class="table table-bordered mt-3">
+        <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>Business Name</th>
+            <th>Address</th>
+            <th>Telephone Number</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="customerListTableBody" th:each="customer : ${customers}">
+        <tr>
+            <td th:text="${customerStat.index + 1}"></td>
+            <td th:text="${customer.businessName}"></td>
+            <td th:text="${customer.address.addressLine1 + ', ' + customer.address.addressLine2 + ', ' + customer.address.addressLine3 + ', ' + customer.address.country + ' (ZIP# ' + customer.address.postCode + ') '}"></td>
+            <td th:text="${customer.telephoneNumber}"></td>
+            <td>
+                <a th:href="@{/customers/updateCustomerByID/{id}(id=${customer.customerID})}"
+                   class="btn btn-warning"
+                   data-toggle="modal"
+                   data-target="#updateCustomerModal"
+                   th:attr="data-id=${customer.customerID}, data-business-name=${customer.businessName}, data-address-line-1=${customer.address.addressLine1}, data-address-line-2=${customer.address.addressLine2}, data-address-line-3=${customer.address.addressLine3}, data-country=${customer.address.country}, data-post-code=${customer.address.postCode}, data-telephone-number=${customer.telephoneNumber}">
+                    <span class="material-symbols-outlined">edit</span> Update
+                </a>
+                <a th:href="@{/customers/deleteCustomerByID/{id}(id=${customer.customerID})}" title="Delete" class="btn btn-danger">
+                    <span class="material-symbols-outlined">delete</span> Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Update Customer Modal -->
+    <div class="modal fade" id="updateCustomerModal" tabindex="-1" role="dialog" aria-labelledby="updateCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateCustomerModalLabel">Update Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Update Customer Form -->
+                    <form id="updateCustomerForm" method="post" th:object="${customer}">
+                        <div class="form-group">
+                            <label for="updateCustomerId">Customer ID:</label>
+                            <input type="text" class="form-control" id="updateCustomerId" name="customerID" readonly th:value="${customer.customerID}">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateBusinessName">Business Name:</label>
+                            <input type="text" class="form-control" id="updateBusinessName" name="businessName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAddressLine1">Address Line 1:</label>
+                            <input type="text" class="form-control" id="updateAddressLine1" name="address.addressLine1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAddressLine2">Address Line 2:</label>
+                            <input type="text" class="form-control" id="updateAddressLine2" name="address.addressLine2">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAddressLine3">Address Line 3:</label>
+                            <input type="text" class="form-control" id="updateAddressLine3" name="address.addressLine3">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateCountry">Country:</label>
+                            <input type="text" class="form-control" id="updateCountry" name="address.country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePostCode">Post Code:</label>
+                            <input type="text" class="form-control" id="updatePostCode" name="address.postCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateTelephoneNumber">Telephone Number:</label>
+                            <input type="text" class="form-control" id="updateTelephoneNumber" name="telephoneNumber" required>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Add Bootstrap JS and other scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#updateCustomerModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var form = $('#updateCustomerForm');
+
+            // Extract data from the button
+            var id = button.data('id');
+
+            // Set the action dynamically based on the customer ID
+            form.attr('action', '/customers/updateCustomerByID/' + id);
+
+            var businessName = button.data('business-name');
+            var addressLine1 = button.data('address-line-1');
+            var addressLine2 = button.data('address-line-2');
+            var addressLine3 = button.data('address-line-3');
+            var country = button.data('country');
+            var postCode = button.data('post-code');
+            var telephoneNumber = button.data('telephone-number');
+
+            // Populate the form fields with the data
+            form.find('#updateCustomerId').val(id);
+            form.find('#updateBusinessName').val(businessName);
+            form.find('#updateAddressLine1').val(addressLine1);
+            form.find('#updateAddressLine2').val(addressLine2);
+            form.find('#updateAddressLine3').val(addressLine3);
+            form.find('#updateCountry').val(country);
+            form.find('#updatePostCode').val(postCode);
+            form.find('#updateTelephoneNumber').val(telephoneNumber);
+        });
+
+        // Optionally, handle the form submission
+        $('#updateCustomerForm').submit(function (event) {
+            // You can add any additional handling logic here if needed
+            // For example, prevent default form submission:
+            // event.preventDefault();
+        });
+    });
+
+    function filterCustomers() {
+    // Get selected country from the dropdown
+    var selectedCountry = document.getElementById('filterCountry').value.toLowerCase();
+
+    // Get input value and convert to lowercase for case-insensitive search
+    var searchInput = document.getElementById('customerSearchInput').value.toLowerCase();
+
+    var table = document.getElementById('customerTable');
+    var rows = table.getElementsByTagName('tr');
+
+    // Loop through all rows and apply filters
+    for (var i = 0; i < rows.length; i++) {
+        var tdCountry = rows[i].getElementsByTagName('td')[2]; // Assuming country is in the third column
+
+        if (tdCountry) {
+            var country = tdCountry.textContent.toLowerCase();
+
+            // Check if the row matches the selected country and search input
+            var matchesCountry = selectedCountry === '' || country.includes(selectedCountry);
+            var matchesSearch = searchInput === '' || rows[i].textContent.toLowerCase().includes(searchInput);
+
+            // Show or hide the row based on the filter criteria
+            if (matchesCountry && matchesSearch) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+}
+
+// Call the filterCustomers function when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+    filterCustomers();
+});
+
+</script>
+
+
+</body>
+</html>
