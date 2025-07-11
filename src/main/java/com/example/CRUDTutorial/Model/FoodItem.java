@@ -7,7 +7,7 @@ import java.util.Date;
 @Table(name = "FoodItem")
 public class FoodItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @OneToOne
     @JoinColumn(name = "foodProductId", referencedColumnName = "id")
