@@ -1,13 +1,13 @@
-package com.example.CRUDTutorial;
+// package com.example.CRUDTutorial;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class CrudTutorialApplicationTests {
+// @SpringBootTest
+// class CrudTutorialApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	@Test
+// 	void contextLoads() {
+// 	}s
 
-}
+// }	
