@@ -13,7 +13,7 @@ A Spring Boot application for managing products, customers, and food items with 
 ## 🛠️ Tech Stack
 
 - **Framework**: Spring Boot 2.4.0
-- **Language**: Java 17
+- **Language**: Java 21
 - **Database**: H2 (in-memory) / SQLite
 - **ORM**: Hibernate JPA
 - **Security**: Spring Security
@@ -40,8 +40,8 @@ src/main/java/com/example/CRUDTutorial/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Java 17+
-- Maven 3.6+
+- Java 21
+- Maven  3.8+ (Recommended for Java 21 support)
 
 ### Quick Start
 ```bash
